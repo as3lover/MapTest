@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module type="Flex" version="4">
+  <component name="FlexBuildConfigurationManager" active="FormTest">
+    <configurations>
+      <configuration name="FormTest" target-platform="Desktop" pure-as="true" main-class="Main" output-file="Main.swf" output-folder="$MODULE_DIR$/out/production/FormTest">
+        <dependencies target-player="27.0">
+          <entries>
+            <entry library-id="7dd3cd2e-dc00-4835-a6c4-0abf83094357">
+              <dependency linkage="Merged" />
+            </entry>
+            <entry library-id="7a5b5766-db71-424f-a6d4-cfd1ac15d31c">
+              <dependency linkage="Merged" />
+            </entry>
+            <entry library-id="93e476ff-ebf3-4001-b11f-19d2715834a6">
+              <dependency linkage="Merged" />
+            </entry>
+          </entries>
+          <sdk name="Adobe AIR SDK 26.0.0.118" />
+        </dependencies>
+        <compiler-options />
+        <packaging-air-desktop package-file-name="Main" />
+        <packaging-android />
+        <packaging-ios />
+      </configuration>
+    </configurations>
+    <compiler-options />
+  </component>
+  <component name="NewModuleRootManager" inherit-compiler-output="true">
+    <exclude-output />
+    <content url="file://$MODULE_DIR$">
+      <sourceFolder url="file://$MODULE_DIR$/src" isTestSource="false" />
+    </content>
+    <orderEntry type="jdk" jdkName="Adobe AIR SDK 26.0.0.118" jdkType="Flex SDK Type (new)" />
+    <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="module-library" exported="">
+      <library type="flex">
+        <properties id="7dd3cd2e-dc00-4835-a6c4-0abf83094357" />
+        <CLASSES>
+          <root url="file://$MODULE_DIR$/../SWC/TLF" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+        <jarDirectory url="file://$MODULE_DIR$/../SWC/TLF" recursive="false" />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library" exported="">
+      <library type="flex">
+        <properties id="7a5b5766-db71-424f-a6d4-cfd1ac15d31c" />
+        <CLASSES>
+          <root url="file://$USER_HOME$/Downloads/Compressed/openscales-2.2/libs" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+        <jarDirectory url="file://$USER_HOME$/Downloads/Compressed/openscales-2.2/libs" recursive="false" />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library" exported="">
+      <library type="flex">
+        <properties id="93e476ff-ebf3-4001-b11f-19d2715834a6" />
+        <CLASSES>
+          <root url="file://$MODULE_DIR$/../GreenSock-AS3/src" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+  </component>
+</module>
