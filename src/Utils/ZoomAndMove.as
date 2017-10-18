@@ -19,6 +19,10 @@ public class ZoomAndMove
     private var MouseX:Number;
     private var MouseY:Number;
     private var _onUpdtae:Function;
+    private var minScale:Number;
+    private var maxScale:Number;
+    private var insideX:Number;
+    private var insideY:Number;
 
     public function ZoomAndMove(stage:Stage, obj:Sprite, zoom:Boolean = true, move:Boolean = true, onUpdtae:Function = null)
     {
@@ -27,7 +31,10 @@ public class ZoomAndMove
             trace("ERROR >> ZoomAndMove: null object");
             return;
         }
-        
+
+        minScale = Math.max(Main.Stage_Width, Main.Stage_Height)/Map2.defaultSize;
+        //maxScale = Math.min(Main.Stage_Width, Main.Stage_Height)/Map2.defaultSize;
+
         _onUpdtae = onUpdtae;
 
         this.stage = stage;
@@ -50,42 +57,80 @@ public class ZoomAndMove
 
     private function onDown(event:MouseEvent):void
     {
+        //TweenLite.killTweensOf(obj);
+        //lastScaleX = obj.scaleX;
+        //lastScaleY = obj.scaleY;
+
+        insideX = obj.mouseX;
+        insideY = obj.mouseY;
+
         mouseDown = true;
         updateMousePos();
-        stage.addEventListener(MouseEvent.MOUSE_MOVE, onMove);
-        obj.startDrag();
-        stage.addEventListener(MouseEvent.MOUSE_UP, onUp)
+        stage.addEventListener(MouseEvent.MOUSE_MOVE, move);
+        stage.addEventListener(MouseEvent.MOUSE_UP, onUp);
+
+        function move(event:MouseEvent):void
+        {
+            if(!mouseDown)
+            {
+                onUp(null);
+                return;
+            }
+
+            updateMousePos();
+            obj.x = newX(MouseX - (insideX * obj.scaleX));
+            obj.y = newX(MouseY - (insideY * obj.scaleY));
+            onUpdate();
+        }
+
+        function onUp(e:MouseEvent):void
+        {
+            stage.removeEventListener(MouseEvent.MOUSE_MOVE, move);
+            mouseDown = false;
+            obj.stopDrag();
+            onUpdate();
+        }
     }
 
-    private function onMove(event:MouseEvent):void
+    private function newX(x:Number):Number
     {
-        onUpdtae();
+        if(x > 0)
+            x = 0;
+        else if(x + obj.width < Main.Stage_Width)
+            x = Main.Stage_Width - obj.width;
+
+        return x
     }
 
-    private function onUp(e:MouseEvent):void
+    private function newY(y:Number):Number
     {
-        stage.removeEventListener(MouseEvent.MOUSE_MOVE, onMove);
-        mouseDown = false;
-        obj.stopDrag();
+        if(y > 0)
+            y = 0;
+        else if(y + obj.height < Main.Stage_Height)
+            y = Main.Stage_Height - obj.height;
+
+        return y
     }
 
 
     private function onWheel(e:MouseEvent):void
     {
         var scale:Number = 1 - (-e.delta / 25);
+
         lastScaleX = lastScaleX * scale;
         lastScaleY = lastScaleY * scale;
+
+        if(lastScaleX < minScale)
+            lastScaleX = lastScaleY = minScale;
 
         updateMousePos();
 
         var moving:Boolean = mouseDown;
 
-        var bmx:Number = obj.mouseX;
-        var bmy:Number = obj.mouseY;
+        insideX = obj.mouseX;
+        insideY = obj.mouseY;
 
-
-
-        TweenLite.to(obj, .5, {scaleX: lastScaleX, scaleY: lastScaleY, onUpdate:update});
+        TweenLite.to(obj, .5, {scaleX: lastScaleX, scaleY: lastScaleY, onUpdate:update, onComplete:complete});
 
         function update():void
         {
@@ -93,8 +138,8 @@ public class ZoomAndMove
             {
                 if(mouseDown)
                 {
-                    bmx = obj.mouseX;
-                    bmy = obj.mouseY;
+                    insideX = obj.mouseX;
+                    insideY = obj.mouseY;
                 }
                 moving = mouseDown
             }
@@ -102,15 +147,17 @@ public class ZoomAndMove
             if(mouseDown)
                 updateMousePos();
 
-            obj.x = MouseX - (bmx * obj.scaleX);
-            obj.y = MouseY - (bmy * obj.scaleY);
+            obj.x = newX(MouseX - (insideX * obj.scaleX));
+            obj.y = newY(MouseY - (insideY * obj.scaleY));
+        }
 
-            onUpdtae();
-
+        function complete():void
+        {
+            onUpdate();
         }
     }
 
-    private function onUpdtae():void
+    private function onUpdate():void
     {
         if(_onUpdtae != null)
             _onUpdtae();
@@ -120,6 +167,12 @@ public class ZoomAndMove
     {
         MouseX = obj.parent.mouseX;
         MouseY = obj.parent.mouseY;
+    }
+
+    public function reset():void
+    {
+        TweenLite.killTweensOf(obj);
+        mouseDown = false;
     }
 }
 }

@@ -7,6 +7,7 @@ package
 import Utils.LatLong;
 import Utils.MapUtils;
 import Utils.MathUtil;
+import Utils.Util;
 import Utils.ZoomAndMove;
 
 import flash.display.Bitmap;
@@ -20,26 +21,33 @@ import flash.events.Event;
 import flash.events.MouseEvent;
 import flash.geom.Point;
 import flash.net.URLRequest;
+import flash.utils.clearInterval;
+import flash.utils.clearTimeout;
+import flash.utils.setTimeout;
 
 public class Map2 extends Sprite
 {
     private const MAX_LEVEL:uint = 21;
     private const MIN_LEVEL:uint = 1;
-    private var levels:Array = new Array((MAX_LEVEL - MIN_LEVEL + 1));
+    private var sheets:Array = new Array((MAX_LEVEL - MIN_LEVEL + 1));
     private var map:Sprite = new Sprite();
 
     private var _level:uint = 0;
-    private const defaultSize:int = 1024;
+    public static const defaultSize:int = 1024*4;
     private const BaseWidth:uint = 256;
     private var tileWidth:uint = BaseWidth * 2;
     private const GoogleLogoHeight:uint = 23;
-    private const stageWidth:uint = 1000;
-    private const stageHeight:uint = 800;
+    private const stageWidth:uint = Main.Stage_Width;
+    private const stageHeight:uint = Main.Stage_Height;
     private var loadList:Array = new Array();
     private var loading:Boolean = false;
     public static const KEY:String = "AIzaSyBDHNAK8c5LnvhuGY33vXgG8HeIN6JQcAo";
     private var images:Object = new Object();
-    
+    private var zoomAndMove:ZoomAndMove;
+    private var tempTime:int = 0;
+    public static var visibles:int = 0;
+    private var checkSheetsTimeout:uint;
+
     public function Map2()
     {
         this.addEventListener(Event.ADDED_TO_STAGE, init);
@@ -54,7 +62,8 @@ public class Map2 extends Sprite
         mask.graphics.endFill();
         map.addChild(mask);
         map.mask = mask;
-        new ZoomAndMove(stage, map, true, true, refresh);
+
+        zoomAndMove = new ZoomAndMove(stage, map, true, true, refresh);
         refresh();
 
         stage.addEventListener(MouseEvent.CLICK, onClick)
@@ -102,15 +111,31 @@ public class Map2 extends Sprite
             map.y = stageHeight - size;
         }
 
+        refreshVisibles();
 
-        if(setLevel())
+        if(setLevel() || true)
             create();
+    }
+
+    private function refreshVisibles():void
+    {
+        visibles = 0;
+        var cnt:int=0;
+        for(var i:String in images)
+        {
+            var holder:Holder = images[i];
+            holder.refresh();
+            cnt++
+        }
+        trace("Visibles:", visibles, cnt);
     }
 
     private function create():void
     {
-        //trace("create >>>>>>>>>>>>>>>>>>>>>>>")
+        trace("create");
         loadList = [];
+        //zoomAndMove.reset();
+        //map.x = map.y = 0;
 
         var tiles:int = Math.pow(2,level);
 
@@ -137,8 +162,8 @@ public class Map2 extends Sprite
         //startPoint = topSheet.globalToLocal(startPoint);
         //endPoint = topSheet.globalToLocal(endPoint);
 
-        startPoint = globalToLocal2(startPoint, topSheet);
-        endPoint = globalToLocal2(endPoint, topSheet);
+        startPoint = Util.globalToLocal(startPoint, topSheet);
+        endPoint = Util.globalToLocal(endPoint, topSheet);
 
 
         startX = startPoint.x;
@@ -162,9 +187,11 @@ public class Map2 extends Sprite
 
         trace(topSheet.scaleX, startX, startY, x1, x2, y1, y2, (x2-x1+1)*(y2-y1+1));
 
-        for(j = y1; j <= y2; j++)
+        //for(j = y1; j <= y2; j++)
+        for(j = y1; j <= y2+1; j += (tileWidth-GoogleLogoHeight-1)/tileWidth)
         {
-            for(i = x1; i <= x2; i++)
+            //for(i = x1; i <= x2; i++)
+            for(i = x1; i <= x2+1; i += (tileWidth-1)/tileWidth)
             {
                 centerX = ((i*2) +1)* tileMid;
                 centerY = ((j*2) +1)* tileMid;
@@ -195,52 +222,13 @@ public class Map2 extends Sprite
         }
     }
 
-    private function globalToLocal2(point:Point, sprite:DisplayObject):Point
-    {
-        var x:Number = point.x;
-        var y:Number = point.y;
 
-        var list:Array = [sprite];
-        while (sprite.parent != null && sprite.parent != stage)
-        {
-            sprite = sprite.parent;
-            list.push(sprite)
-        }
-
-        while(list.length)
-        {
-            sprite = list.pop();
-            x = (x - sprite.x) / sprite.scaleX;
-            y = (y - sprite.y) / sprite.scaleY;
-        }
-
-        var newPoint:Point = new Point(x, y);
-        return newPoint;
-    }
-
-    private function localToGlobal2(point:Point, sprite:DisplayObject):Point
-    {
-        var x:Number = point.x;
-        var y:Number = point.y;
-
-        while (sprite != null && sprite != stage)
-        {
-            x = sprite.x + (x * sprite.scaleX);
-            y = sprite.y + (y * sprite.scaleY);
-
-            sprite = sprite.parent;
-        }
-
-        var newPoint:Point = new Point(x, y);
-
-        return newPoint;
-    }
 
     private function loadImage(name:String, lat:Number, long:Number, level:uint = 18, x:int=0, y:int=0):void
     {
         //trace("push: ", name);
         loadList.push({lat:lat, long:long, x:x, y:y, name:name, level:level});
-        load()
+        setTimeout(load,1)//load()
     }
 
     function load()
@@ -276,7 +264,12 @@ public class Map2 extends Sprite
             loading = false;
 
             if(loadList.length)
-                load();
+                setTimeout(load,1)//load();
+            else
+            {
+                clearTimeout(checkSheetsTimeout)
+                checkSheetsTimeout = setTimeout(checkSheets,10);
+            }
 
             return;
         }
@@ -296,20 +289,59 @@ public class Map2 extends Sprite
         }
     }
 
+    private function checkSheets():void
+    {
+        clearTimeout(checkSheetsTimeout);
+
+        if (loadList.length)
+        {
+            checkSheetsTimeout = setTimeout(checkSheets, 100);
+            return
+        }
+
+        trace("checkSheets");
+
+        for(var i:int = sheets.length-1; i>-1; i--)
+        {
+            var s:Sprite = sheets[i];
+            if(s == null) continue;
+            s.visible = false;
+        }
+        topSheet.visible = true;
+        refreshVisibles();
+    }
+
+
+
     private function addImage(img:Bitmap, lat:Number, long:Number, level:uint, x:int, y:int, name:String):void
     {
+        img.smoothing = true;
         //trace("loaded: ", name);
-        var holder:Sprite = new Sprite();
+        var holder:Holder = new Holder();
         holder.addChild(img);
 
         var mask:Shape = new Shape();
-        //mask.graphics.beginFill(0);
-        mask.graphics.lineStyle(3)
-        mask.graphics.drawRect(0,0,img.width, img.height /*- GoogleLogoHeight*/);
-       // mask.graphics.endFill();
+        mask.graphics.beginFill(0);
+        //mask.graphics.lineStyle(0)
+        mask.graphics.drawRect(0,0,img.width, img.height - GoogleLogoHeight);
+        mask.graphics.endFill();
         holder.addChild(mask);
+/*
+        var line:Shape = new Shape();
+        line.graphics.lineStyle(0);
+        line.graphics.drawRect(0,0,img.width, img.height - GoogleLogoHeight);
+        holder.addChild(line);
+*/
+        img.mask = mask;
 
-        //img.mask = mask;
+        ////////////
+        var temp:Sprite = new Sprite();
+        temp.addChild(holder);
+        var newBit:Bitmap = Util.objectToBitmap(temp, tileWidth, tileWidth-GoogleLogoHeight);
+        newBit.smoothing = true;
+        holder.removeChildren();
+        holder.addChild(newBit);
+        ////////////
 
         var sheet:Sprite = levelSheet(level);
 
@@ -318,9 +350,29 @@ public class Map2 extends Sprite
         sheet.addChild(holder);
         images[name] = holder;
 
+        holder.name = "holder"
+        holder.addEventListener(MouseEvent.CLICK, onHolder)
+
         loading = false;
         if(loadList.length)
-            load()
+            setTimeout(load,1)//load()
+        else
+            checkSheets();
+    }
+
+    private function onHolder(e:MouseEvent):void
+    {
+        if(e.target.name is Holder)
+        {
+            var obj:Holder = e.target as Holder;
+            trace(obj.x,obj.y,obj.width, obj.height, obj.parent.name)
+            //obj.parent.parent.addChild(obj.parent);
+            var bit:Bitmap = Util.objectToBitmap(obj);
+            bit.x = 1500 - bit.width;
+            bit.y = 900 - bit.height;
+            stage.removeChildren(1)
+            stage.addChild(bit);
+        }
     }
 
 
@@ -358,6 +410,7 @@ public class Map2 extends Sprite
     private function setTopSheet():void
     {
         map.addChild(topSheet);
+        topSheet.visible = true;
     }
 
     private function get topSheet():Sprite
@@ -368,12 +421,13 @@ public class Map2 extends Sprite
     private function levelSheet(level:uint):Sprite
     {
         var index = level - MIN_LEVEL;
-        var sheet:Sprite = levels[index];
+        var sheet:Sprite = sheets[index];
+
         if (sheet == null)
         {
             sheet = new Sprite();
-            levels[index] = sheet;
-
+            sheet.name = "sheet " + String(index+1);
+            sheets[index] = sheet;
 
             sheet.scaleX = sheet.scaleY = getSheetScale(level);
         }
@@ -399,7 +453,7 @@ public class Map2 extends Sprite
     //////////////////////////////
     private function getLevelByMapScale(mapScale:Number):uint
     {
-        var sheetScale:Number = 1 / mapScale;
+        var sheetScale:Number = 0.75 / mapScale;
         return getLevelBySheetScale(sheetScale);
     }
 
@@ -428,7 +482,7 @@ public class Map2 extends Sprite
 
     private function correctLevel(level:Number):uint
     {
-        level = Math.floor(level);
+        level = Math.round(level);
 
         if (level < MIN_LEVEL)
             level = MIN_LEVEL;

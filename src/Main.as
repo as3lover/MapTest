@@ -4,6 +4,7 @@ import fl.text.TLFTextField;
 
 import flash.display.DisplayObject;
 import flash.display.Sprite;
+import flash.display.Stage;
 import flash.events.Event;
 import flash.events.FocusEvent;
 import flash.events.MouseEvent;
@@ -11,12 +12,17 @@ import flash.events.MouseEvent;
 import flashx.textLayout.edit.EditManager;
 import flash.events.KeyboardEvent;
 
-[SWF(width="1000", height="800", frameRate="60", backgroundColor="#808080")]
+[SWF(width="1500", height="900", frameRate="60", backgroundColor="#808080")]
 public class Main extends Sprite
 {
     private var i:uint = 0;
+    public static var STAGE:Stage;
+    public static const Stage_Width:int = 1500;
+    public static const Stage_Height:int = 900;
     public function Main()
     {
+        STAGE = stage;
+
         var map:Map2 = new Map2();
         addChild(map);
 
@@ -32,6 +38,7 @@ public class Main extends Sprite
 
         setFocus(0);
         stage.addEventListener(KeyboardEvent.KEY_UP, onKey)
+
     }
 
     private function myFunc():void

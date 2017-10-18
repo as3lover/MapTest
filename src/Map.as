@@ -236,10 +236,10 @@ public class Map extends Sprite
 
 
     private function loadImage(name:String, lat:Number, long:Number, zoom:uint = 18, x:int=0, y:int=0):void
-    {
-        loadList.push({lat:lat, long:long, x:x, y:y, name:name});
-        load()
-    }
+{
+    loadList.push({lat:lat, long:long, x:x, y:y, name:name});
+    load()
+}
 
     function load()
     {
