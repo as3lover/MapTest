@@ -19,6 +19,32 @@
   <component name="ExecutionTargetManager" SELECTED_TARGET="default_target" />
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
+      <file leaf-file-name="Map2.as" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/Map2.as">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="280">
+              <caret line="68" column="35" lean-forward="true" selection-start-line="68" selection-start-column="35" selection-end-line="68" selection-end-column="35" />
+              <folding>
+                <element signature="n#!!doc" expanded="true" />
+                <element signature="e#61#82#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Map.as" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/Map.as">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="-1845">
+              <caret line="84" column="31" lean-forward="false" selection-start-line="84" selection-start-column="31" selection-end-line="84" selection-end-column="31" />
+              <folding>
+                <element signature="n#!!doc" expanded="true" />
+                <element signature="e#60#81#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
       <file leaf-file-name="Main.as" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/Main.as">
           <provider selected="true" editor-type-id="text-editor">
@@ -31,27 +57,13 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Map2.as" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/Map2.as">
+      <file leaf-file-name="MathUtil.as" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/Utils/MathUtil.as">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-116">
-              <caret line="55" column="18" lean-forward="false" selection-start-line="55" selection-start-column="12" selection-end-line="55" selection-end-column="18" />
+            <state relative-caret-position="0">
+              <caret line="0" column="0" lean-forward="true" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
               <folding>
                 <element signature="n#!!doc" expanded="true" />
-                <element signature="e#61#82#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="Map.as" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/Map.as">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="161">
-              <caret line="79" column="12" lean-forward="false" selection-start-line="79" selection-start-column="12" selection-end-line="79" selection-end-column="12" />
-              <folding>
-                <element signature="n#!!doc" expanded="true" />
-                <element signature="e#60#81#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -84,8 +96,8 @@
       <file leaf-file-name="ZoomAndMove.as" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/Utils/ZoomAndMove.as">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="239">
-              <caret line="22" column="24" lean-forward="false" selection-start-line="22" selection-start-column="24" selection-end-line="22" selection-end-column="24" />
+            <state relative-caret-position="161">
+              <caret line="39" column="37" lean-forward="false" selection-start-line="39" selection-start-column="36" selection-end-line="39" selection-end-column="37" />
               <folding>
                 <element signature="e#63#94#0" expanded="true" />
               </folding>
@@ -105,17 +117,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>cl</find>
-      <find>remove</find>
-      <find>trace</find>
-      <find>////trace</find>
-      <find>int</find>
-      <find>255</find>
-      <find>.9</find>
-      <find>mask</find>
-      <find>0.9</find>
-      <find>256</find>
-      <find>W</find>
       <find>bt</find>
       <find>center</find>
       <find>textf</find>
@@ -132,9 +133,20 @@
       <find>board.scale</find>
       <find>wheel</find>
       <find>addc</find>
+      <find>create</find>
+      <find>mask</find>
+      <find>tra</find>
+      <find>mapw</find>
+      <find>setl</find>
+      <find>scale</find>
+      <find>level</find>
+      <find>set leve</find>
+      <find>col</find>
       <find>board</find>
       <find>ref</find>
-      <find>create</find>
+      <find>cre</find>
+      <find>Cre</find>
+      <find>trace</find>
     </findStrings>
     <replaceStrings>
       <replace>//trace</replace>
@@ -156,6 +168,7 @@
         <option value="$PROJECT_DIR$/src/Main.as" />
         <option value="$PROJECT_DIR$/src/Map.as" />
         <option value="$PROJECT_DIR$/src/Utils/ZoomAndMove.as" />
+        <option value="$PROJECT_DIR$/src/Utils/MathUtil.as" />
         <option value="$PROJECT_DIR$/src/Map2.as" />
       </list>
     </option>
@@ -211,6 +224,24 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="FormTest" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="FormTest" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Utils" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
         </subPane>
       </pane>
       <pane id="Scratches" />
@@ -230,8 +261,8 @@
   </component>
   <component name="RecentsManager">
     <key name="CreateActionScriptClassDialog.DESTINATION_PACKAGE_RECENT_KEY">
-      <recent name="" />
       <recent name="Utils" />
+      <recent name="" />
     </key>
   </component>
   <component name="RunManager" selected="Flash App.FormTest">
@@ -667,12 +698,12 @@
       <workItem from="1508105234059" duration="240000" />
       <workItem from="1508105499957" duration="82000" />
       <workItem from="1508106397816" duration="7477000" />
-      <workItem from="1508175102369" duration="43987000" />
+      <workItem from="1508175102369" duration="54242000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="51786000" />
+    <option name="totallyTimeSpent" value="62041000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="0" width="1680" height="1017" extended-state="0" />
@@ -851,18 +882,28 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/Utils/ZoomAndMove.as">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="239">
-          <caret line="22" column="24" lean-forward="false" selection-start-line="22" selection-start-column="24" selection-end-line="22" selection-end-column="24" />
+        <state relative-caret-position="161">
+          <caret line="39" column="37" lean-forward="false" selection-start-line="39" selection-start-column="36" selection-end-line="39" selection-end-column="37" />
           <folding>
             <element signature="e#63#94#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/Utils/MathUtil.as">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="true" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding>
+            <element signature="n#!!doc" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/Map.as">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="161">
-          <caret line="79" column="12" lean-forward="false" selection-start-line="79" selection-start-column="12" selection-end-line="79" selection-end-column="12" />
+        <state relative-caret-position="-1845">
+          <caret line="84" column="31" lean-forward="false" selection-start-line="84" selection-start-column="31" selection-end-line="84" selection-end-column="31" />
           <folding>
             <element signature="n#!!doc" expanded="true" />
             <element signature="e#60#81#0" expanded="true" />
@@ -872,8 +913,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/Map2.as">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-116">
-          <caret line="55" column="18" lean-forward="false" selection-start-line="55" selection-start-column="12" selection-end-line="55" selection-end-column="18" />
+        <state relative-caret-position="280">
+          <caret line="68" column="35" lean-forward="true" selection-start-line="68" selection-start-column="35" selection-end-line="68" selection-end-column="35" />
           <folding>
             <element signature="n#!!doc" expanded="true" />
             <element signature="e#61#82#0" expanded="true" />
